@@ -7,26 +7,27 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Map;
 
 public class Utils {
     public static HttpRequest createProcedureRequest(String url, String body) throws URISyntaxException {
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(url))
-                .headers("Content-Type", "application/json;charset=UTF-8")
-                .POST(HttpRequest.BodyPublishers.ofString(body))
-                .build();
-
-        return request;
+        return createProcedureRequest(null, url, body);
     }
 
-    public static HttpRequest createQueryRequest(String url, String body) throws URISyntaxException {
+    // because http headers are ALWAYS strings apparetly, and header only accepts strings so...
+    public static HttpRequest createProcedureRequest(Map<String, String> queries, String url, String body) {
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(url))
-                .headers("Content-Type", "application/json;charset=UTF-8")
-                .POST(HttpRequest.BodyPublishers.ofString(body))
-                .build();
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .POST(HttpRequest.BodyPublishers.ofString(body));
+
+        if(queries != null){
+            for (Map.Entry<String, String> key : queries.entrySet()) {
+                requestBuilder.header(key.getKey(), key.getValue());
+            }
+        }
+
+        HttpRequest request = requestBuilder.build();
 
         return request;
     }
