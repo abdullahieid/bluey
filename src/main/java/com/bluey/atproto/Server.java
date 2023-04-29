@@ -1,9 +1,7 @@
 package com.bluey.atproto;
 
-import com.bluey.Session;
-import com.bluey.Utils;
-import com.bluey.CreateSession;
-import com.bluey.XRPCError;
+import com.bluey.*;
+import com.bluey.Record;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -27,9 +25,9 @@ public class Server {
 
         CreateSession credentials = new CreateSession(identifier, password);
         String json = gson.toJson(credentials);
-        Map<String, String> queries = Map.ofEntries(entry("Content-Type", "application/json;charset=UTF-8"));
+        Map<String, String> headers = Map.ofEntries(entry("Content-Type", "application/json;charset=UTF-8"));
 
-        HttpRequest request = Utils.createProcedureRequest(queries, "https://bsky.social/xrpc/com.atproto.server.createSession", json);
+        HttpRequest request = Utils.createProcedureRequest(headers, "https://bsky.social/xrpc/com.atproto.server.createSession", json);
         HttpResponse<String> response = Utils.createProcedureResponse(request);
 
         Session session;
@@ -53,9 +51,41 @@ public class Server {
                         sessionCredentials.get("refreshJwt").toString());
 
                 System.out.println("Session created.");
+                System.out.println(session.toString());
                 return session;
             }
         }
         return null;
+    }
+
+    public static String deleteSession(Session session) throws IOException, InterruptedException, URISyntaxException {
+        System.out.println("Deleting session...");
+
+        Map<String, String> headers = Map.ofEntries(entry("Authorization","Bearer " + session.getRefreshJwt()));
+        System.out.println(session.getAccessJwt());
+
+        HttpRequest request = Utils.createProcedureRequest(headers, "https://bsky.social/xrpc/com.atproto.server.deleteSession");
+
+        HttpResponse<String> response = Utils.createProcedureResponse(request);
+
+        System.out.println("Status code:: " + response.statusCode());
+        System.out.println("Response:: " + response.body());
+
+        return response.body();
+    }
+
+    public static String post(Session session, Record record) throws IOException, InterruptedException {
+
+        Map<String, String> headers = Map.ofEntries(entry("Authorization","Bearer " + session.getAccessJwt()),
+                                                    entry("Content-Type","application/json;charset=UTF-8"));
+
+        String json = gson.toJson(record);
+
+        HttpRequest request = Utils.createProcedureRequest(headers, "https://bsky.social/xrpc/com.atproto.repo.createRecord", json);
+
+        HttpResponse<String> response = Utils.createProcedureResponse(request);
+        System.out.println(response.statusCode());
+        System.out.println(response.body());
+        return response.body();
     }
 }

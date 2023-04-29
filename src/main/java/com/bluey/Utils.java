@@ -10,20 +10,28 @@ import java.net.http.HttpResponse;
 import java.util.Map;
 
 public class Utils {
+    public static HttpRequest createProcedureRequest(Map<String, String> headers, String url) throws URISyntaxException {
+        return createProcedureRequest(headers, url, null);
+    }
     public static HttpRequest createProcedureRequest(String url, String body) throws URISyntaxException {
         return createProcedureRequest(null, url, body);
     }
 
     // because http headers are ALWAYS strings apparetly, and header only accepts strings so...
-    public static HttpRequest createProcedureRequest(Map<String, String> queries, String url, String body) {
+    public static HttpRequest createProcedureRequest(Map<String, String> headers, String url, String body) {
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .POST(HttpRequest.BodyPublishers.ofString(body));
+                .uri(URI.create(url));
 
-        if(queries != null){
-            for (Map.Entry<String, String> key : queries.entrySet()) {
-                requestBuilder.header(key.getKey(), key.getValue());
+        if(body != null){
+            requestBuilder.POST(HttpRequest.BodyPublishers.ofString(body));
+        }else {
+            requestBuilder.POST(HttpRequest.BodyPublishers.noBody());
+        }
+
+        if(headers != null){
+            for (Map.Entry<String, String> header : headers.entrySet()) {
+                requestBuilder.header(header.getKey(), header.getValue());
             }
         }
 

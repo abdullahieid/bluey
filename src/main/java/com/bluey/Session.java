@@ -14,26 +14,26 @@ public class Session {
                     String email,
                     String accessJwt,
                     String refreshJwt){
-        this.did = did;
-        this.handle = handle;
-        this.email = email;
-        this.accessJwt = accessJwt;
-        this.refreshJwt = refreshJwt;
+        this.did = did.replace("\"","");
+        this.handle = handle.replace("\"","");
+        this.email = email.replace("\"","");
+        this.accessJwt = accessJwt.replace("\"","");
+        this.refreshJwt = refreshJwt.replace("\"","");
     }
 
-    private String getDid(){
+    public String getDid(){
         return this.did;
     }
-    private String getHandle(){
+    public String getHandle(){
         return this.handle;
     }
-    private String getEmail(){
+    public String getEmail(){
         return this.email;
     }
-    private String getAccessJwt(){
+    public String getAccessJwt(){
         return this.accessJwt;
     }
-    private String getRefreshJwt(){
+    public String getRefreshJwt(){
         return this.refreshJwt;
     }
 
@@ -63,10 +63,21 @@ public class Session {
         }
 
         if((did != null) && (handle != null) && (email != null) && (accessJwt != null) && (refreshJwt != null)){
-            session = new Session(email, handle, did, accessJwt, refreshJwt);
+            session = new Session(did, handle, email, accessJwt, refreshJwt);
             return session;
         }
 
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "email='" + email + '\'' +
+                ", handle='" + handle + '\'' +
+                ", did='" + did + '\'' +
+                ", accessJwt='" + accessJwt + '\'' +
+                ", refreshJwt='" + refreshJwt + '\'' +
+                '}';
     }
 }
