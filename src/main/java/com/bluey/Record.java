@@ -1,7 +1,7 @@
 package com.bluey;
 
 public class Record<T> {
-    private String type = "union";
+    private String $type;
     private String repo;
     private String collection;
     private String rkey;
@@ -12,10 +12,15 @@ public class Record<T> {
     public Record() {
     }
 
-    public Record(String repo, NSID collection, T record) {
+    public Record(String $type, String repo, NSID collection, T record) {
+        this.$type = $type;
         this.repo = repo;
         this.collection = collection.nsid;
         this.record = record;
+    }
+
+    public static <T> Record<T> createRecord(String $type, String repo, NSID collection, T record){
+        return new Record<T>($type, repo, collection, record);
     }
 
     public String getRepo() {

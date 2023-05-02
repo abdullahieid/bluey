@@ -1,22 +1,23 @@
-package com.bluey;
+package com.bluey.embed;
 
 public class Image implements Embeddable {
-    private String image;
+
     private String alt;
+    private Media image;
 
     public Image() {
     }
 
-    public Image(String image, String alt) {
-        this.image = image;
+    public Image(String alt, Media image) {
         this.alt = alt;
+        this.image = image;
     }
 
-    public String getImage() {
+    public Media getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Media image) {
         this.image = image;
     }
 

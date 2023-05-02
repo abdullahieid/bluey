@@ -10,13 +10,15 @@ import java.net.URISyntaxException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static java.util.Map.entry;
 
 public class Server {
     private static final Gson gson = new Gson();
 
-    public static Session createSession(String identifier, String password) throws IOException, URISyntaxException, InterruptedException {
+    public static Session createSession(String provider, String identifier, String password) throws IOException, URISyntaxException, InterruptedException {
         if((identifier == null) || (password == null)){
             return null; // create custom exception
         }
@@ -27,7 +29,7 @@ public class Server {
         String json = gson.toJson(credentials);
         Map<String, String> headers = Map.ofEntries(entry("Content-Type", "application/json;charset=UTF-8"));
 
-        HttpRequest request = Utils.createProcedureRequest(headers, "https://bsky.social/xrpc/com.atproto.server.createSession", json);
+        HttpRequest request = Utils.createProcedureRequest(headers, "https://"+provider+"/xrpc/com.atproto.server.createSession", json);
         HttpResponse<String> response = Utils.createProcedureResponse(request);
 
         Session session;
@@ -58,13 +60,13 @@ public class Server {
         return null;
     }
 
-    public static String deleteSession(Session session) throws IOException, InterruptedException, URISyntaxException {
+    public static String deleteSession(String provider, Session session) throws IOException, InterruptedException, URISyntaxException {
         System.out.println("Deleting session...");
 
         Map<String, String> headers = Map.ofEntries(entry("Authorization","Bearer " + session.getRefreshJwt()));
         System.out.println(session.getAccessJwt());
 
-        HttpRequest request = Utils.createProcedureRequest(headers, "https://bsky.social/xrpc/com.atproto.server.deleteSession");
+        HttpRequest request = Utils.createProcedureRequest(headers, "https://"+provider+"/xrpc/com.atproto.server.deleteSession");
 
         HttpResponse<String> response = Utils.createProcedureResponse(request);
 
@@ -74,18 +76,41 @@ public class Server {
         return response.body();
     }
 
-    public static String post(Session session, Record record) throws IOException, InterruptedException {
+    public static <T> String post(String provider, Session session, Record<T> record) throws IOException, InterruptedException {
+        System.out.println("Creating post...");
 
         Map<String, String> headers = Map.ofEntries(entry("Authorization","Bearer " + session.getAccessJwt()),
                                                     entry("Content-Type","application/json;charset=UTF-8"));
 
         String json = gson.toJson(record);
 
-        HttpRequest request = Utils.createProcedureRequest(headers, "https://bsky.social/xrpc/com.atproto.repo.createRecord", json);
+        HttpRequest request = Utils.createProcedureRequest(headers, "https://"+provider+"/xrpc/com.atproto.repo.createRecord", json);
 
         HttpResponse<String> response = Utils.createProcedureResponse(request);
-        System.out.println(response.statusCode());
-        System.out.println(response.body());
+
+        System.out.println("Status code:: " + response.statusCode());
+        System.out.println("Response:: " + response.body());
         return response.body();
+    }
+
+    public static <T> String postImage(String provider, Session session, Record<T> record) throws IOException, InterruptedException, ExecutionException {
+        System.out.println("Creating post...");
+
+        Map<String, String> headers = Map.ofEntries(entry("Authorization","Bearer " + session.getAccessJwt()),
+                                                    entry("Content-Type","application/json;charset=UTF-8"));
+
+        String json = gson.toJson(record);
+
+        HttpRequest request = Utils.createProcedureRequest(headers, "https://"+provider+"/xrpc/com.atproto.repo.createRecord", json);
+
+        CompletableFuture<HttpResponse<String>> response = Utils.createProcedureResponseAsync(request);
+
+        while(!response.isDone()){
+            Thread.sleep(1000);
+        }
+
+        System.out.println("Status code:: " + response.get().statusCode());
+        System.out.println("Response:: " + response.get().body());
+        return response.get().body();
     }
 }

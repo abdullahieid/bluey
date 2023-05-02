@@ -1,4 +1,4 @@
-package com.bluey;
+package com.bluey.embed;
 
 public interface Embeddable {
 }
