@@ -1,8 +1,6 @@
-package com.bluey.embed;
+package com.abdullahieid.bsky.embed;
 
-import com.bluey.embed.Embeddable;
-
-public class Media implements Embeddable {
+public class Media {
     private String cid;
     private String mimeType;
 

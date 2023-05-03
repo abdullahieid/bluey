@@ -1,4 +1,4 @@
-package com.bluey.embed;
+package com.abdullahieid.bsky.embed;
 
 public class Image implements Embeddable {
 

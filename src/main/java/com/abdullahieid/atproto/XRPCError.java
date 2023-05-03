@@ -1,4 +1,4 @@
-package com.bluey;
+package com.abdullahieid.atproto;
 
 public class XRPCError {
     private String error;

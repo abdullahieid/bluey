@@ -1,4 +1,4 @@
-package com.bluey;
+package com.abdullahieid.atproto;
 
 // single mingle maybe idek
 public class Session {
@@ -14,11 +14,11 @@ public class Session {
                     String email,
                     String accessJwt,
                     String refreshJwt){
-        this.did = did.replace("\"","");
-        this.handle = handle.replace("\"","");
-        this.email = email.replace("\"","");
-        this.accessJwt = accessJwt.replace("\"","");
-        this.refreshJwt = refreshJwt.replace("\"","");
+        this.did = did;
+        this.handle = handle;
+        this.email = email;
+        this.accessJwt = accessJwt;
+        this.refreshJwt = refreshJwt;
     }
 
     public String getDid(){

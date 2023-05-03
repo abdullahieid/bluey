@@ -1,9 +1,6 @@
-package com.bluey.embed;
+package com.abdullahieid.bsky.embed;
 
-import com.bluey.embed.Embeddable;
-import com.bluey.embed.Image;
-
-public class Embed implements Embeddable {
+public class Embed {
     private String $type;
     private Embeddable[] images;
 

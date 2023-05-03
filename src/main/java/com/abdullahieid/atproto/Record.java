@@ -1,4 +1,6 @@
-package com.bluey;
+package com.abdullahieid.atproto;
+
+import com.abdullahieid.NSID;
 
 public class Record<T> {
     private String $type;

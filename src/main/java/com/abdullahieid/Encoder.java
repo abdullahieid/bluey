@@ -1,4 +1,4 @@
-package com.bluey;
+package com.abdullahieid;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

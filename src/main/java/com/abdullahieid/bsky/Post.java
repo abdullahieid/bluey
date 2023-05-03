@@ -1,16 +1,15 @@
-package com.bluey;
+package com.abdullahieid.bsky;
 
-import com.bluey.embed.Embed;
-import com.bluey.embed.Embeddable;
-import com.bluey.embed.Image;
-import com.bluey.embed.Media;
+import com.abdullahieid.NSID;
+import com.abdullahieid.bsky.embed.Embed;
+import com.abdullahieid.bsky.embed.Image;
 
 import java.time.Instant;
 
 public class Post {
     private String text;
     private String createdAt;
-    private Embeddable embed;
+    private Embed embed;
 
     public Post() {
     }
@@ -20,7 +19,7 @@ public class Post {
         this.createdAt = createdAt;
     }
 
-    public Post(String text, String createdAt, Embeddable embed) {
+    public Post(String text, String createdAt, Embed embed) {
         this.text = text;
         this.createdAt = createdAt;
         this.embed = embed;
@@ -55,11 +54,11 @@ public class Post {
         this.createdAt = createdAt;
     }
 
-    public Embeddable getEmbed() {
+    public Embed getEmbed() {
         return embed;
     }
 
-    public void setEmbed(Embeddable embed) {
+    public void setEmbed(Embed embed) {
         this.embed = embed;
     }
 }
