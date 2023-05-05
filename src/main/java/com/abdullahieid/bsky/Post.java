@@ -3,9 +3,14 @@ package com.abdullahieid.bsky;
 import com.abdullahieid.NSID;
 import com.abdullahieid.bsky.embed.Embed;
 import com.abdullahieid.bsky.embed.Image;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 import java.time.Instant;
 
+@Getter
+@Setter
 public class Post {
     private String text;
     private String createdAt;
@@ -14,12 +19,12 @@ public class Post {
     public Post() {
     }
 
-    public Post(String text, String createdAt) {
+    public Post(@NonNull String text, @NonNull String createdAt) {
         this.text = text;
         this.createdAt = createdAt;
     }
 
-    public Post(String text, String createdAt, Embed embed) {
+    public Post(@NonNull String text, @NonNull String createdAt, @NonNull Embed embed) {
         this.text = text;
         this.createdAt = createdAt;
         this.embed = embed;
@@ -36,29 +41,5 @@ public class Post {
         Embed embed = new Embed(NSID.IMAGES.nsid, images);
 
         return new Post(text, Instant.now().toString(), embed);
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Embed getEmbed() {
-        return embed;
-    }
-
-    public void setEmbed(Embed embed) {
-        this.embed = embed;
     }
 }

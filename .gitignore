@@ -3,6 +3,11 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+/src/main/resources/config.properties
+/src/blob.txt
+
+!**/src/blob.txt
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -35,4 +40,4 @@ build/
 .vscode/
 
 ### Mac OS ###
-.DS_Store
+.DS_Storesrc/blob.txt

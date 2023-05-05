@@ -1,5 +1,11 @@
 package com.abdullahieid.bsky.embed;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Media {
     private String cid;
     private String mimeType;
@@ -7,24 +13,8 @@ public class Media {
     public Media() {
     }
 
-    public Media(String cid, String mimeType) {
+    public Media(@NonNull String cid, @NonNull String mimeType) {
         this.cid = cid;
-        this.mimeType = mimeType;
-    }
-
-    public String getCid() {
-        return cid;
-    }
-
-    public void setCid(String cid) {
-        this.cid = cid;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
 }

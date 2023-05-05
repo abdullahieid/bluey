@@ -1,5 +1,11 @@
 package com.abdullahieid.bsky.embed;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Image implements Embeddable {
 
     private String alt;
@@ -8,24 +14,8 @@ public class Image implements Embeddable {
     public Image() {
     }
 
-    public Image(String alt, Media image) {
+    public Image(@NonNull String alt, @NonNull Media image) {
         this.alt = alt;
         this.image = image;
-    }
-
-    public Media getImage() {
-        return image;
-    }
-
-    public void setImage(Media image) {
-        this.image = image;
-    }
-
-    public String getAlt() {
-        return alt;
-    }
-
-    public void setAlt(String alt) {
-        this.alt = alt;
     }
 }

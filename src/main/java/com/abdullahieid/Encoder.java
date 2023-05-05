@@ -1,5 +1,7 @@
 package com.abdullahieid;
 
+import lombok.NonNull;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -9,13 +11,13 @@ import java.io.IOException;
 import java.util.Base64;
 
 public class Encoder {
-    public static String encodeImage(String path) throws IOException {
+    public static String encodeImage(@NonNull String path) throws IOException {
         byte[] fileContent = new FileInputStream(path).readAllBytes();
         System.out.println("size:: " + fileContent.length);
         return Base64.getEncoder().encodeToString(fileContent);
     }
 
-    public static byte[] makeBytes(String path) throws IOException {
+    public static byte[] makeBytes(@NonNull String path) throws IOException {
         File fnew = new File(path);
         BufferedImage originalImage = ImageIO.read(fnew);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

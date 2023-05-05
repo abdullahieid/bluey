@@ -17,6 +17,10 @@ import static java.util.Map.entry;
 public class Server {
     private static final Gson gson = new Gson();
 
+    public static Session createSession() throws IOException, URISyntaxException, InterruptedException {
+        return createSession(System.getenv("PROVIDER"), System.getenv("BSKY_USERNAME"), System.getenv("BSKY_PASSWORD"));
+    }
+
     public static Session createSession(String provider, String identifier, String password) throws IOException, URISyntaxException, InterruptedException {
         if((identifier == null) || (password == null)){
             return null; // create custom exception
